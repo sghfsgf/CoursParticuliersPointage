@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pointage Cours Maths</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --text: #1e293b;
+      --border: #e2e8f0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 20px;
+      line-height: 1.5;
+    }
+    .container { max-width: 960px; margin: 0 auto; }
+    h1 { margin-bottom: 6px; font-size: 1.7rem; }
+    .subtitle { color: #64748b; margin-bottom: 24px; font-size: 0.95rem; }
+    .card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    h2 { font-size: 1.15rem; margin-bottom: 14px; }
+    .row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; align-items: center; }
+    input, select, button {
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-size: 0.95rem;
+    }
+    input, select { flex: 1; min-width: 140px; }
+    button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    button:hover { opacity: 0.92; }
+    button.success { background: var(--success); }
+    button.danger { background: var(--danger); }
+    button.secondary { background: #64748b; }
+    table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    th, td { padding: 11px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+    th { background: #f8fafc; font-weight: 600; font-size: 0.9rem; }
+    .present { color: var(--success); font-weight: 600; }
+    .absent { color: var(--danger); font-weight: 600; }
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      background: #e0e7ff;
+      color: #3730a3;
+    }
+    .tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+    .tab {
+      padding: 9px 16px;
+      background: #e2e8f0;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    .tab.active { background: var(--primary); color: white; }
+    .section { display: none; }
+    .section.active { display: block; }
+    .empty { color: #94a3b8; font-style: italic; padding: 16px 0; }
+    .actions button { padding: 6px 10px; font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Pointage – Cours particuliers Maths</h1>
+    <p class="subtitle">Gestion des élèves et des présences</p>
+
+    <div class="tabs">
+      <button class="tab active" onclick="showSection('eleves')">Élèves</button>
+      <button class="tab" onclick="showSection('pointage')">Pointage</button>
+      <button class="tab" onclick="showSection('historique')">Historique</button>
+    </div>
+
+    <!-- ÉLÈVES -->
+    <div id="eleves" class="section active">
+      <div class="card">
+        <h2>Ajouter un élève</h2>
+        <div class="row">
+          <input type="text" id="nomEleve" placeholder="Nom de l'élève">
+          <select id="niveauEleve">
+            <option value="Primaire">Primaire / École</option>
+            <option value="7ème">Collège - 7ème</option>
+            <option value="8ème">Collège - 8ème</option>
+            <option value="9ème">Collège - 9ème</option>
+            <option value="1ère">Secondaire - 1ère</option>
+            <option value="2ème">Secondaire - 2ème</option>
+            <option value="3ème">Secondaire - 3ème</option>
+            <option value="Terminale">Secondaire - Terminale</option>
+          </select>
+          <button onclick="ajouterEleve()">Ajouter</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Liste des élèves</h2>
+        <div class="row">
+          <select id="filtreNiveau" onchange="afficherEleves()">
+            <option value="">Tous les niveaux</option>
+            <option value="Primaire">Primaire / École</option>
+            <option value="7ème">Collège - 7ème</option>
+            <option value="8ème">Collège - 8ème</option>
+            <option value="9ème">Collège - 9ème</option>
+            <option value="1ère">Secondaire - 1ère</option>
+            <option value="2ème">Secondaire - 2ème</option>
+            <option value="3ème">Secondaire - 3ème</option>
+            <option value="Terminale">Secondaire - Terminale</option>
+          </select>
+        </div>
+        <table>
+          <thead>
+            <tr><th>Nom</th><th>Niveau</th><th>Actions</th></tr>
+          </thead>
+          <tbody id="listeEleves"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- POINTAGE -->
+    <div id="pointage" class="section">
+      <div class="card">
+        <h2>Faire le pointage d'une séance</h2>
+        <div class="row">
+          <input type="date" id="datePointage">
+          <select id="niveauPointage" onchange="chargerElevesPointage()">
+            <option value="">Tous les niveaux</option>
+            <option value="Primaire">Primaire / École</option>
+            <option value="7ème">Collège - 7ème</option>
+            <option value="8ème">Collège - 8ème</option>
+            <option value="9ème">Collège - 9ème</option>
+            <option value="1ère">Secondaire - 1ère</option>
+            <option value="2ème">Secondaire - 2ème</option>
+            <option value="3ème">Secondaire - 3ème</option>
+            <option value="Terminale">Secondaire - Terminale</option>
+          </select>
+          <button class="success" onclick="sauvegarderPointage()">Enregistrer</button>
+        </div>
+        <table>
+          <thead>
+            <tr><th>Élève</th><th>Niveau</th><th>Présence</th></tr>
+          </thead>
+          <tbody id="listePointage"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- HISTORIQUE -->
+    <div id="historique" class="section">
+      <div class="card">
+        <h2>Historique des séances</h2>
+        <div class="row">
+          <select id="filtreHisto" onchange="afficherHistorique()">
+            <option value="">Tous les niveaux</option>
+            <option value="Primaire">Primaire / École</option>
+            <option value="7ème">Collège - 7ème</option>
+            <option value="8ème">Collège - 8ème</option>
+            <option value="9ème">Collège - 9ème</option>
+            <option value="1ère">Secondaire - 1ère</option>
+            <option value="2ème">Secondaire - 2ème</option>
+            <option value="3ème">Secondaire - 3ème</option>
+            <option value="Terminale">Secondaire - Terminale</option>
+          </select>
+          <button class="secondary" onclick="exportCSV()">Exporter CSV</button>
+        </div>
+        <div id="contenuHistorique"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let eleves = JSON.parse(localStorage.getItem('eleves') || '[]');
+    let pointages = JSON.parse(localStorage.getItem('pointages') || '[]');
+
+    document.getElementById('datePointage').valueAsDate = new Date();
+
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      event.target.classList.add('active');
+      if (id === 'eleves') afficherEleves();
+      if (id === 'pointage') chargerElevesPointage();
+      if (id === 'historique') afficherHistorique();
+    }
+
+    function sauvegarder() {
+      localStorage.setItem('eleves', JSON.stringify(eleves));
+      localStorage.setItem('pointages', JSON.stringify(pointages));
+    }
+
+    function ajouterEleve() {
+      const nom = document.getElementById('nomEleve').value.trim();
+      const niveau = document.getElementById('niveauEleve').value;
+      if (!nom) return alert('Entre un nom');
+      eleves.push({ id: Date.now(), nom, niveau });
+      document.getElementById('nomEleve').value = '';
+      sauvegarder();
+      afficherEleves();
+    }
+
+    function supprimerEleve(id) {
+      if (!confirm('Supprimer cet élève ?')) return;
+      eleves = eleves.filter(e => e.id !== id);
+      sauvegarder();
+      afficherEleves();
+    }
+
+    function afficherEleves() {
+      const filtre = document.getElementById('filtreNiveau').value;
+      const tbody = document.getElementById('listeEleves');
+      const liste = filtre ? eleves.filter(e => e.niveau === filtre) : eleves;
+
+      if (liste.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="3" class="empty">Aucun élève</td></tr>';
+        return;
+      }
+      tbody.innerHTML = liste.map(e => `
+        <tr>
+          <td>${e.nom}</td>
+          <td><span class="badge">${e.niveau}</span></td>
+          <td class="actions">
+            <button class="danger" onclick="supprimerEleve(${e.id})">Supprimer</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function chargerElevesPointage() {
+      const filtre = document.getElementById('niveauPointage').value;
+      const tbody = document.getElementById('listePointage');
+      const liste = filtre ? eleves.filter(e => e.niveau === filtre) : eleves;
+
+      if (liste.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="3" class="empty">Aucun élève pour ce niveau</td></tr>';
+        return;
+      }
+      tbody.innerHTML = liste.map(e => `
+        <tr>
+          <td>${e.nom}</td>
+          <td><span class="badge">${e.niveau}</span></td>
+          <td>
+            <select id="pres-${e.id}">
+              <option value="Présent">Présent</option>
+              <option value="Absent">Absent</option>
+            </select>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function sauvegarderPointage() {
+      const date = document.getElementById('datePointage').value;
+      if (!date) return alert('Choisis une date');
+
+      const filtre = document.getElementById('niveauPointage').value;
+      const liste = filtre ? eleves.filter(e => e.niveau === filtre) : eleves;
+
+      if (liste.length === 0) return alert('Aucun élève');
+
+      pointages = pointages.filter(p => !(p.date === date && (filtre === '' || p.niveau === filtre)));
+
+      liste.forEach(e => {
+        const statut = document.getElementById(`pres-${e.id}`).value;
+        pointages.push({
+          date,
+          eleveId: e.id,
+          nom: e.nom,
+          niveau: e.niveau,
+          statut
+        });
+      });
+
+      sauvegarder();
+      alert('Pointage enregistré !');
+    }
+
+    function afficherHistorique() {
+      const filtre = document.getElementById('filtreHisto').value;
+      const cont = document.getElementById('contenuHistorique');
+
+      let data = [...pointages];
+      if (filtre) data = data.filter(p => p.niveau === filtre);
+
+      if (data.length === 0) {
+        cont.innerHTML = '<p class="empty">Aucun pointage enregistré</p>';
+        return;
+      }
+
+      const parDate = {};
+      data.forEach(p => {
+        if (!parDate[p.date]) parDate[p.date] = [];
+        parDate[p.date].push(p);
+      });
+
+      const dates = Object.keys(parDate).sort().reverse();
+
+      cont.innerHTML = dates.map(date => `
+        <div style="margin-bottom:24px">
+          <h3 style="margin-bottom:8px">${formatDate(date)}</h3>
+          <table>
+            <thead>
+              <tr><th>Élève</th><th>Niveau</th><th>Statut</th></tr>
+            </thead>
+            <tbody>
+              ${parDate[date].map(p => `
+                <tr>
+                  <td>${p.nom}</td>
+                  <td><span class="badge">${p.niveau}</span></td>
+                  <td class="${p.statut === 'Présent' ? 'present' : 'absent'}">${p.statut}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `).join('');
+    }
+
+    function formatDate(d) {
+      const [y, m, day] = d.split('-');
+      return `${day}/${m}/${y}`;
+    }
+
+    function exportCSV() {
+      if (pointages.length === 0) return alert('Aucune donnée');
+      let csv = 'Date,Nom,Niveau,Statut\n';
+      pointages.forEach(p => {
+        csv += `${p.date},${p.nom},${p.niveau},${p.statut}\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'pointages-maths.csv';
+      a.click();
+    }
+
+    afficherEleves();
+  </script>
+</body>
+</html>
