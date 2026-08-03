@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,33 +13,56 @@
       --card: #ffffff;
       --text: #1e293b;
       --border: #e2e8f0;
+      --muted: #64748b;
+    }
+    [data-theme="dark"] {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --text: #f1f5f9;
+      --border: #334155;
+      --muted: #94a3b8;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: system-ui, -apple-system, sans-serif;
       background: var(--bg);
       color: var(--text);
-      padding: 20px;
+      padding: 16px;
       line-height: 1.5;
     }
-    .container { max-width: 960px; margin: 0 auto; }
-    h1 { margin-bottom: 6px; font-size: 1.7rem; }
-    .subtitle { color: #64748b; margin-bottom: 24px; font-size: 0.95rem; }
+    .container { max-width: 980px; margin: 0 auto; }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    h1 { font-size: 1.5rem; }
+    .subtitle { color: var(--muted); font-size: 0.9rem; }
     .card {
       background: var(--card);
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 20px;
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 16px;
       border: 1px solid var(--border);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
     }
-    h2 { font-size: 1.15rem; margin-bottom: 14px; }
-    .row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; align-items: center; }
+    h2 { font-size: 1.1rem; margin-bottom: 14px; }
+    .row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+      align-items: center;
+    }
     input, select, button {
-      padding: 10px 14px;
-      border-radius: 8px;
+      padding: 11px 14px;
+      border-radius: 10px;
       border: 1px solid var(--border);
       font-size: 0.95rem;
+      background: var(--card);
+      color: var(--text);
     }
     input, select { flex: 1; min-width: 140px; }
     button {
@@ -54,44 +77,96 @@
     button.success { background: var(--success); }
     button.danger { background: var(--danger); }
     button.secondary { background: #64748b; }
-    table { width: 100%; border-collapse: collapse; margin-top: 8px; }
-    th, td { padding: 11px 12px; text-align: left; border-bottom: 1px solid var(--border); }
-    th { background: #f8fafc; font-weight: 600; font-size: 0.9rem; }
+    button.outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+    th, td { padding: 12px 10px; text-align: left; border-bottom: 1px solid var(--border); }
+    th { font-weight: 600; color: var(--muted); font-size: 0.85rem; }
     .present { color: var(--success); font-weight: 600; }
     .absent { color: var(--danger); font-weight: 600; }
     .badge {
       display: inline-block;
-      padding: 3px 10px;
+      padding: 4px 10px;
       border-radius: 20px;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       background: #e0e7ff;
       color: #3730a3;
     }
-    .tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+    [data-theme="dark"] .badge { background: #312e81; color: #c7d2fe; }
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
     .tab {
-      padding: 9px 16px;
-      background: #e2e8f0;
+      padding: 10px 16px;
+      background: var(--border);
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
       font-weight: 500;
+      color: var(--text);
     }
     .tab.active { background: var(--primary); color: white; }
     .section { display: none; }
     .section.active { display: block; }
-    .empty { color: #94a3b8; font-style: italic; padding: 16px 0; }
-    .actions button { padding: 6px 10px; font-size: 0.85rem; }
+    .empty { color: var(--muted); font-style: italic; padding: 20px 0; text-align: center; }
+    .compteur {
+      display: flex;
+      gap: 16px;
+      margin: 12px 0;
+      font-weight: 600;
+    }
+    .compteur span { padding: 6px 12px; border-radius: 8px; }
+    .compteur .p { background: #dcfce7; color: #166534; }
+    .compteur .a { background: #fee2e2; color: #991b1b; }
+    [data-theme="dark"] .compteur .p { background: #14532d; color: #bbf7d0; }
+    [data-theme="dark"] .compteur .a { background: #7f1d1d; color: #fecaca; }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+    }
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      text-align: center;
+    }
+    .stat-card .num { font-size: 1.5rem; font-weight: 700; }
+    .search-box { margin-bottom: 12px; }
+    @media (max-width: 600px) {
+      body { padding: 12px; }
+      input, select, button { font-size: 16px; } /* évite le zoom sur iPhone */
+      th, td { padding: 10px 6px; font-size: 0.9rem; }
+    }
+    @media print {
+      .tabs, header button, .no-print { display: none !important; }
+      body { background: white; color: black; }
+      .card { box-shadow: none; border: 1px solid #ccc; }
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Pointage – Cours particuliers Maths</h1>
-    <p class="subtitle">Gestion des élèves et des présences</p>
+    <header>
+      <div>
+        <h1>Pointage Maths</h1>
+        <p class="subtitle">Cours particuliers</p>
+      </div>
+      <button class="outline" onclick="toggleTheme()">🌓 Thème</button>
+    </header>
 
-    <div class="tabs">
+    <div class="tabs no-print">
       <button class="tab active" onclick="showSection('eleves')">Élèves</button>
       <button class="tab" onclick="showSection('pointage')">Pointage</button>
       <button class="tab" onclick="showSection('historique')">Historique</button>
+      <button class="tab" onclick="showSection('stats')">Statistiques</button>
     </div>
 
     <!-- ÉLÈVES -->
@@ -116,7 +191,8 @@
 
       <div class="card">
         <h2>Liste des élèves</h2>
-        <div class="row">
+        <div class="row search-box">
+          <input type="text" id="rechercheEleve" placeholder="Rechercher un élève..." oninput="afficherEleves()">
           <select id="filtreNiveau" onchange="afficherEleves()">
             <option value="">Tous les niveaux</option>
             <option value="Primaire">Primaire / École</option>
@@ -141,9 +217,14 @@
     <!-- POINTAGE -->
     <div id="pointage" class="section">
       <div class="card">
-        <h2>Faire le pointage d'une séance</h2>
+        <h2>Nouvelle séance</h2>
         <div class="row">
           <input type="date" id="datePointage">
+          <select id="seancePointage">
+            <option value="Matin">Matin</option>
+            <option value="Après-midi">Après-midi</option>
+            <option value="Soir">Soir</option>
+          </select>
           <select id="niveauPointage" onchange="chargerElevesPointage()">
             <option value="">Tous les niveaux</option>
             <option value="Primaire">Primaire / École</option>
@@ -155,14 +236,23 @@
             <option value="3ème">Secondaire - 3ème</option>
             <option value="Terminale">Secondaire - Terminale</option>
           </select>
-          <button class="success" onclick="sauvegarderPointage()">Enregistrer</button>
         </div>
+
+        <div class="compteur" id="compteurPointage" style="display:none">
+          <span class="p">Présents : <span id="nbPresent">0</span></span>
+          <span class="a">Absents : <span id="nbAbsent">0</span></span>
+        </div>
+
         <table>
           <thead>
             <tr><th>Élève</th><th>Niveau</th><th>Présence</th></tr>
           </thead>
           <tbody id="listePointage"></tbody>
         </table>
+
+        <div class="row" style="margin-top:16px">
+          <button class="success" onclick="sauvegarderPointage()">Enregistrer la séance</button>
+        </div>
       </div>
     </div>
 
@@ -170,7 +260,7 @@
     <div id="historique" class="section">
       <div class="card">
         <h2>Historique des séances</h2>
-        <div class="row">
+        <div class="row no-print">
           <select id="filtreHisto" onchange="afficherHistorique()">
             <option value="">Tous les niveaux</option>
             <option value="Primaire">Primaire / École</option>
@@ -182,9 +272,19 @@
             <option value="3ème">Secondaire - 3ème</option>
             <option value="Terminale">Secondaire - Terminale</option>
           </select>
-          <button class="secondary" onclick="exportCSV()">Exporter CSV</button>
+          <button class="secondary" onclick="exportJSON()">Exporter données</button>
+          <button class="outline" onclick="document.getElementById('importFile').click()">Importer</button>
+          <input type="file" id="importFile" accept=".json" style="display:none" onchange="importJSON(event)">
         </div>
         <div id="contenuHistorique"></div>
+      </div>
+    </div>
+
+    <!-- STATISTIQUES -->
+    <div id="stats" class="section">
+      <div class="card">
+        <h2>Statistiques par élève</h2>
+        <div id="contenuStats"></div>
       </div>
     </div>
   </div>
@@ -192,6 +292,17 @@
   <script>
     let eleves = JSON.parse(localStorage.getItem('eleves') || '[]');
     let pointages = JSON.parse(localStorage.getItem('pointages') || '[]');
+
+    // Thème
+    if (localStorage.getItem('theme') === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+    function toggleTheme() {
+      const html = document.documentElement;
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      localStorage.setItem('theme', isDark ? 'light' : 'dark');
+    }
 
     document.getElementById('datePointage').valueAsDate = new Date();
 
@@ -203,6 +314,7 @@
       if (id === 'eleves') afficherEleves();
       if (id === 'pointage') chargerElevesPointage();
       if (id === 'historique') afficherHistorique();
+      if (id === 'stats') afficherStats();
     }
 
     function sauvegarder() {
@@ -210,6 +322,7 @@
       localStorage.setItem('pointages', JSON.stringify(pointages));
     }
 
+    // ===== ÉLÈVES =====
     function ajouterEleve() {
       const nom = document.getElementById('nomEleve').value.trim();
       const niveau = document.getElementById('niveauEleve').value;
@@ -229,11 +342,15 @@
 
     function afficherEleves() {
       const filtre = document.getElementById('filtreNiveau').value;
+      const recherche = document.getElementById('rechercheEleve').value.toLowerCase();
       const tbody = document.getElementById('listeEleves');
-      const liste = filtre ? eleves.filter(e => e.niveau === filtre) : eleves;
+
+      let liste = eleves;
+      if (filtre) liste = liste.filter(e => e.niveau === filtre);
+      if (recherche) liste = liste.filter(e => e.nom.toLowerCase().includes(recherche));
 
       if (liste.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="3" class="empty">Aucun élève</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="3" class="empty">Aucun élève trouvé</td></tr>';
         return;
       }
       tbody.innerHTML = liste.map(e => `
@@ -247,13 +364,17 @@
       `).join('');
     }
 
+    // ===== POINTAGE =====
     function chargerElevesPointage() {
       const filtre = document.getElementById('niveauPointage').value;
       const tbody = document.getElementById('listePointage');
       const liste = filtre ? eleves.filter(e => e.niveau === filtre) : eleves;
 
+      document.getElementById('compteurPointage').style.display = liste.length ? 'flex' : 'none';
+
       if (liste.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="3" class="empty">Aucun élève pour ce niveau</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="3" class="empty">Aucun élève</td></tr>';
+        majCompteur();
         return;
       }
       tbody.innerHTML = liste.map(e => `
@@ -261,30 +382,43 @@
           <td>${e.nom}</td>
           <td><span class="badge">${e.niveau}</span></td>
           <td>
-            <select id="pres-${e.id}">
+            <select id="pres-${e.id}" onchange="majCompteur()">
               <option value="Présent">Présent</option>
               <option value="Absent">Absent</option>
             </select>
           </td>
         </tr>
       `).join('');
+      majCompteur();
+    }
+
+    function majCompteur() {
+      let present = 0, absent = 0;
+      document.querySelectorAll('#listePointage select').forEach(s => {
+        if (s.value === 'Présent') present++;
+        else absent++;
+      });
+      document.getElementById('nbPresent').textContent = present;
+      document.getElementById('nbAbsent').textContent = absent;
     }
 
     function sauvegarderPointage() {
       const date = document.getElementById('datePointage').value;
+      const seance = document.getElementById('seancePointage').value;
       if (!date) return alert('Choisis une date');
 
       const filtre = document.getElementById('niveauPointage').value;
       const liste = filtre ? eleves.filter(e => e.niveau === filtre) : eleves;
-
       if (liste.length === 0) return alert('Aucun élève');
 
-      pointages = pointages.filter(p => !(p.date === date && (filtre === '' || p.niveau === filtre)));
+      // Supprime l'ancien pointage même date + même séance + même niveau
+      pointages = pointages.filter(p => !(p.date === date && p.seance === seance && (filtre === '' || p.niveau === filtre)));
 
       liste.forEach(e => {
         const statut = document.getElementById(`pres-${e.id}`).value;
         pointages.push({
           date,
+          seance,
           eleveId: e.id,
           nom: e.nom,
           niveau: e.niveau,
@@ -293,13 +427,15 @@
       });
 
       sauvegarder();
-      alert('Pointage enregistré !');
+      alert('Séance enregistrée !');
+      showSection('historique');
+      document.querySelectorAll('.tab')[2].classList.add('active');
     }
 
+    // ===== HISTORIQUE =====
     function afficherHistorique() {
       const filtre = document.getElementById('filtreHisto').value;
       const cont = document.getElementById('contenuHistorique');
-
       let data = [...pointages];
       if (filtre) data = data.filter(p => p.niveau === filtre);
 
@@ -308,33 +444,48 @@
         return;
       }
 
-      const parDate = {};
+      // Grouper par date + séance
+      const groupes = {};
       data.forEach(p => {
-        if (!parDate[p.date]) parDate[p.date] = [];
-        parDate[p.date].push(p);
+        const key = p.date + '|' + p.seance;
+        if (!groupes[key]) groupes[key] = [];
+        groupes[key].push(p);
       });
 
-      const dates = Object.keys(parDate).sort().reverse();
+      const keys = Object.keys(groupes).sort().reverse();
 
-      cont.innerHTML = dates.map(date => `
-        <div style="margin-bottom:24px">
-          <h3 style="margin-bottom:8px">${formatDate(date)}</h3>
-          <table>
-            <thead>
-              <tr><th>Élève</th><th>Niveau</th><th>Statut</th></tr>
-            </thead>
-            <tbody>
-              ${parDate[date].map(p => `
-                <tr>
-                  <td>${p.nom}</td>
-                  <td><span class="badge">${p.niveau}</span></td>
-                  <td class="${p.statut === 'Présent' ? 'present' : 'absent'}">${p.statut}</td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
-        </div>
-      `).join('');
+      cont.innerHTML = keys.map(key => {
+        const [date, seance] = key.split('|');
+        const liste = groupes[key];
+        const presents = liste.filter(p => p.statut === 'Présent').length;
+        const absents = liste.length - presents;
+
+        return `
+          <div style="margin-bottom:28px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:8px">
+              <h3>${formatDate(date)} – ${seance}</h3>
+              <div>
+                <span style="margin-right:12px">${presents} présent(s) / ${absents} absent(s)</span>
+                <button class="outline no-print" onclick="imprimerSeance('${date}','${seance}')">Imprimer</button>
+              </div>
+            </div>
+            <table>
+              <thead>
+                <tr><th>Élève</th><th>Niveau</th><th>Statut</th></tr>
+              </thead>
+              <tbody>
+                ${liste.map(p => `
+                  <tr>
+                    <td>${p.nom}</td>
+                    <td><span class="badge">${p.niveau}</span></td>
+                    <td class="${p.statut === 'Présent' ? 'present' : 'absent'}">${p.statut}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        `;
+      }).join('');
     }
 
     function formatDate(d) {
@@ -342,20 +493,89 @@
       return `${day}/${m}/${y}`;
     }
 
-    function exportCSV() {
-      if (pointages.length === 0) return alert('Aucune donnée');
-      let csv = 'Date,Nom,Niveau,Statut\n';
-      pointages.forEach(p => {
-        csv += `${p.date},${p.nom},${p.niveau},${p.statut}\n`;
-      });
-      const blob = new Blob([csv], { type: 'text/csv' });
+    function imprimerSeance(date, seance) {
+      // On pourrait filtrer, mais pour simplicité on imprime toute la page historique
+      window.print();
+    }
+
+    // ===== STATISTIQUES =====
+    function afficherStats() {
+      const cont = document.getElementById('contenuStats');
+      if (eleves.length === 0) {
+        cont.innerHTML = '<p class="empty">Aucun élève</p>';
+        return;
+      }
+
+      cont.innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Élève</th>
+              <th>Niveau</th>
+              <th>Présences</th>
+              <th>Absences</th>
+              <th>Taux</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${eleves.map(e => {
+              const sessions = pointages.filter(p => p.eleveId === e.id);
+              const presents = sessions.filter(p => p.statut === 'Présent').length;
+              const absents = sessions.filter(p => p.statut === 'Absent').length;
+              const total = presents + absents;
+              const taux = total ? Math.round((presents / total) * 100) : '-';
+              return `
+                <tr>
+                  <td>${e.nom}</td>
+                  <td><span class="badge">${e.niveau}</span></td>
+                  <td class="present">${presents}</td>
+                  <td class="absent">${absents}</td>
+                  <td>${taux === '-' ? '-' : taux + '%'}</td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      `;
+    }
+
+    // ===== IMPORT / EXPORT =====
+    function exportJSON() {
+      const data = { eleves, pointages };
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'pointages-maths.csv';
+      a.download = 'pointage-maths-backup.json';
       a.click();
     }
 
+    function importJSON(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        try {
+          const data = JSON.parse(e.target.result);
+          if (data.eleves && data.pointages) {
+            if (confirm('Remplacer toutes les données actuelles ?')) {
+              eleves = data.eleves;
+              pointages = data.pointages;
+              sauvegarder();
+              alert('Données importées avec succès');
+              afficherEleves();
+            }
+          } else {
+            alert('Fichier invalide');
+          }
+        } catch {
+          alert('Erreur de lecture du fichier');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    // Init
     afficherEleves();
   </script>
 </body>
